@@ -65,11 +65,11 @@ def test_test_card_explicitly_disabled(
     assert "show_test_card();" not in main_cpp
 
 
-def test_test_card_not_forced_when_never_updated(
+def test_test_card_still_shown_when_never_updated(
     generate_main: Callable[[str | Path], str],
     component_fixture_path: Callable[[str], Path],
 ) -> None:
-    """With update_interval: never the content comes from elsewhere; no test card clears it."""
+    """update_interval: never alone keeps the test card; an action can still update it."""
     main_cpp = generate_main(component_fixture_path("test_card_never.yaml"))
 
-    assert "show_test_card();" not in main_cpp
+    assert "epaper_display->show_test_card();" in main_cpp
